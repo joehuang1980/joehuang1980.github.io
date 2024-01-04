@@ -862,5 +862,38 @@
             };
             div_VILLNAME.appendChild(reset_VILLNAME);
         </script>
+
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script>
+$(document).ready(function() {
+    // Load GeoJSON file
+    $.getJSON("2test.geojson", function(data) {
+        // Create GeoJSON layer
+        var geojsonLayer = L.geoJSON(data, {
+            style: function(feature) {
+                // Change color based on EGG property value
+                return { color: feature.properties.EGG === 1 ? 'red' : 'blue' };
+            }
+        }).addTo(map); // Add the layer to the map
+    });
+});
+</script>
+
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script>
+$(document).ready(function() {
+    // Load GeoJSON file
+    $.getJSON('2test.geojson', function(data) {
+        // Create GeoJSON layer
+        var geojsonLayer = L.geoJSON(data, {
+            style: function(feature) {
+                // Change color based on EGG property value
+                return { color: feature.properties.EGG === 1 ? 'red' : 'blue' };
+            }
+        }).addTo(map); // Add the layer to the map
+    });
+});
+</script>
+
     </body>
 </html>
