@@ -56,3 +56,13 @@ fetch('assets/points.json') // 載入 GeoJSON 文件
   .catch(error => {
     console.error('Error loading GeoJSON:', error);
   });
+
+const baseLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+
+const geojsonLayer = L.geoJSON(data).addTo(map);
+
+L.control.layers({
+  "Base Map": baseLayer
+}, {
+  "Shapefile Layer": geojsonLayer
+}).addTo(map);
