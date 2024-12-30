@@ -7,11 +7,6 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
   attribution: '© OpenStreetMap'
 }).addTo(map);
 
-// 添加一個標記
-L.marker([51.5, -0.09]).addTo(map)
-  .bindPopup('Hello GIS App!')
-  .openPopup();
-
 // **定位使用者位置**
 map.locate({ setView: true, maxZoom: 16 });
 
@@ -35,4 +30,29 @@ async function searchAddress(query) {
 }
 
 // 測試搜索功能
-searchAddress('London');
+searchAddress('Tainan, Taiwan');
+
+
+// 添加 GeoJSON 圖層
+fetch('assets/points.json') // 載入 GeoJSON 文件
+  .then(response => response.json())
+  .then(data => {
+    // 將 GeoJSON 添加到地圖
+    const geojsonLayer = L.geoJSON(data, {
+      style: {
+        color: "blue", // 設置圖層的顏色
+        weight: 2,
+        opacity: 0.7
+      },
+      onEachFeature: (feature, layer) => {
+        if (feature.properties) {
+          // 彈出屬性資訊
+          layer.bindPopup(`Name: ${feature.properties.name || 'N/A'}`);
+        }
+      }
+    });
+    geojsonLayer.addTo(map);
+  })
+  .catch(error => {
+    console.error('Error loading GeoJSON:', error);
+  });
