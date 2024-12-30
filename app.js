@@ -1,5 +1,5 @@
 // 初始化地圖並設定視圖
-const map = L.map('map').setView([51.505, -0.09], 13);
+const map = L.map('map').setView([23.1417, 120.2513], 13);
 
 // 添加地圖圖層（使用 OpenStreetMap）
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {

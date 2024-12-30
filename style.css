@@ -14,7 +14,7 @@ body, html {
 #controls {
   position: absolute;
   top: 10px;
-  left: 10px;
+  right: 10px; /* 將控制欄移動到右上角 */
   background: white;
   padding: 10px;
   border-radius: 4px;
