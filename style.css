@@ -9,3 +9,19 @@ body, html {
   height: 100%;
   width: 100%;
 }
+
+/* 控制欄位樣式 */
+#controls {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: white;
+  padding: 10px;
+  border-radius: 4px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+  z-index: 1000;
+}
+
+#controls label {
+  font-size: 14px;
+}

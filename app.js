@@ -7,38 +7,14 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
   attribution: '© OpenStreetMap'
 }).addTo(map);
 
-// **定位使用者位置**
-map.locate({ setView: true, maxZoom: 16 });
+// 定義一個變數來存放 GeoJSON 圖層
+let geojsonLayer;
 
-map.on('locationfound', (e) => {
-  L.marker(e.latlng).addTo(map)
-    .bindPopup("You are here!")
-    .openPopup();
-});
-
-// **搜索功能**
-async function searchAddress(query) {
-  const response = await fetch(`https://nominatim.openstreetmap.org/search?q=${query}&format=json`);
-  const data = await response.json();
-  if (data.length > 0) {
-    const { lat, lon } = data[0];
-    map.setView([lat, lon], 16);
-    L.marker([lat, lon]).addTo(map).bindPopup(query).openPopup();
-  } else {
-    alert("Address not found!");
-  }
-}
-
-// 測試搜索功能
-searchAddress('Tainan, Taiwan');
-
-
-// 添加 GeoJSON 圖層
+// 加載 GeoJSON 圖層
 fetch('assets/points.json') // 載入 GeoJSON 文件
   .then(response => response.json())
   .then(data => {
-    // 將 GeoJSON 添加到地圖
-    const geojsonLayer = L.geoJSON(data, {
+    geojsonLayer = L.geoJSON(data, {
       style: {
         color: "blue", // 設置圖層的顏色
         weight: 2,
@@ -51,18 +27,20 @@ fetch('assets/points.json') // 載入 GeoJSON 文件
         }
       }
     });
-    geojsonLayer.addTo(map);
+    geojsonLayer.addTo(map); // 預設添加到地圖
   })
   .catch(error => {
     console.error('Error loading GeoJSON:', error);
   });
 
-const baseLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
-
-const geojsonLayer = L.geoJSON(data).addTo(map);
-
-L.control.layers({
-  "Base Map": baseLayer
-}, {
-  "Shapefile Layer": geojsonLayer
-}).addTo(map);
+// 添加控制功能
+const toggleLayerCheckbox = document.getElementById('toggleLayer');
+toggleLayerCheckbox.addEventListener('change', (e) => {
+  if (geojsonLayer) {
+    if (e.target.checked) {
+      map.addLayer(geojsonLayer); // 顯示圖層
+    } else {
+      map.removeLayer(geojsonLayer); // 隱藏圖層
+    }
+  }
+});
